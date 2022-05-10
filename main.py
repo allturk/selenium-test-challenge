@@ -11,24 +11,28 @@ driver=webdriver.Chrome(service=s)
 wait=WebDriverWait(driver,20)
 driver.get("https://python.org")
 
-upcoming_events=wait.until(EC.visibility_of_any_elements_located((By.CSS_SELECTOR,'.shrubbery li [href*="/events/"]')))
-events_time=wait.until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR,'.shrubbery li')))
-count=0
-events={}
-testdic={}
-for time in events_time:
-    for t in time.find_elements(By.CSS_SELECTOR,"time"):
+#My Solution
+
+#*****************************************************
+
+# upcoming_events=wait.until(EC.visibility_of_any_elements_located((By.CSS_SELECTOR,'.shrubbery li [href*="/events/"]')))
+# events_time=wait.until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR,'.shrubbery li')))
+# count=0
+# events={}
+# testdic={}
+# for time in events_time:
+#     for t in time.find_elements(By.CSS_SELECTOR,"time"):
        
-        for e in time.find_elements(By.CSS_SELECTOR,'a[href*="/events/"]'):
-            testdic["time"]=t.text
-            testdic["name"]=e.text
-            events[count]={}
-            events[count].update(testdic)
-            # print(events)
-            count+=1
+#         for e in time.find_elements(By.CSS_SELECTOR,'a[href*="/events/"]'):
+#             testdic["time"]=t.text
+#             testdic["name"]=e.text
+#             events[count]={}
+#             events[count].update(testdic)
+#             # print(events)
+#             count+=1
  
 
-print(events)
+# print(events)
 # *****************************************************
 # for event in upcoming_events:
 #     print(event.text)
@@ -56,5 +60,25 @@ print(events)
 #     text=text+item.text+"\n"
 # with open("pythonorg.txt","w",encoding="utf-8") as file:
 #     file.write(text)
+#************************************************************
+# Angela's solution
+# event_times=driver.find_elements_by_css_selector(".event-widget time")
+# event_names=driver.find_elements_by_css_selector(".event-widget li a")
+
+# improved deprecated codes
+event_times=driver.find_elements(By.CSS_SELECTOR,".event-widget time")
+event_names=driver.find_elements(By.CSS_SELECTOR,".event-widget li a")
+# for time in event_times:
+#     print(time.text)
+# for name in event_names:
+#     print(name.text)
+eventsdic={}
+
+for n in range(len(event_times)):
+    eventsdic[n]={
+        "time":event_times[n].text,
+        "name":event_names[n].text
+    }
+print(eventsdic)
 
 driver.quit()
